@@ -22,12 +22,14 @@ import {EffectsModule} from '@ngrx/effects';
 import {EntityDataModule} from '@ngrx/data';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {metaReducers, reducers} from "./reducers";
+import {AuthGuard} from "./auth/guards/auth.guard";
 
 
 const routes: Routes = [
   {
     path: 'courses',
-    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule)
+    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule),
+	  canActivate: [AuthGuard]
   },
   {
     path: '**',
@@ -38,25 +40,26 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
-    MatMenuModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatProgressSpinnerModule,
-    MatListModule,
-    MatToolbarModule,
-    AuthModule.forRoot(),
-    StoreModule.forRoot(reducers, {metaReducers}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent
+	],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		RouterModule.forRoot(routes),
+		HttpClientModule,
+		MatMenuModule,
+		MatIconModule,
+		MatSidenavModule,
+		MatProgressSpinnerModule,
+		MatListModule,
+		MatToolbarModule,
+		AuthModule.forRoot(),
+		StoreModule.forRoot(reducers, {metaReducers}),
+		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+		EffectsModule.forRoot([])
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 }
