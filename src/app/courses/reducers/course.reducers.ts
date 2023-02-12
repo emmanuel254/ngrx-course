@@ -21,7 +21,9 @@ export const coursesReducer = createReducer(
 			...state,
 			allCoursesLoaded: true
 		}
-	))
+	)),
+
+	on(CourseActions.courseUpdated, (state, action) => adapter.updateOne(action.update, state))
 )
 
 export const {selectAll} = adapter.getSelectors()
